@@ -1,10 +1,7 @@
 const LOOP_COUNT = 10; // Quantidade de vezes que o script irá enviar o texto
 
 async function readTextAndSendMessage(scriptText, loopCount) {
-  const lines = scriptText
-    .split(/[\n\t]+/)
-    .map((line) => line.trim())
-    .filter((line) => line);
+  const lines = scriptText.split(/[\n\t]+/).filter((line) => line);
 
   const main = document.querySelector("#main");
   const textarea = main?.querySelector(`div[contenteditable="true"]`);
@@ -38,17 +35,7 @@ async function readTextAndSendMessage(scriptText, loopCount) {
 
 readTextAndSendMessage(
   `
-  START
-
-  Insira aqui o texto que você deseja enviar em loop.
-  
-  Cada linha é enviada em uma mensagem.
-
-  linhas em branco são ignoradas.
-
-  ...
-
-  END
+    COLOQUE O TEXTO AQUI !!!!!!
   `,
   LOOP_COUNT
 )
