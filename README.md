@@ -13,9 +13,9 @@ Este script permite que você envie mensagens automaticamente no WhatsApp Web. E
    - No Firefox, você pode pressionar `Ctrl + Shift + K` (Windows / Linux) ou `Cmd + Option + K` (Mac).
    - Alternativamente, você pode clicar com o botão direito em cima do campo escrever mensagens, selecionar "Inspecionar" ou "Inspecionar Elemento", e então selecionar a aba "Console".
 
-4. Copie o script do arquivo send-text-zap-script.js e modifique o texto como quiser.
+4. Copie o código do arquivo send-text-zap-script.js.
 
-5. No console, cole o script e dê enter.
+5. No console, cole o script e modifique o texto como quiser, para iniciar o envio das mensagens pressione enter.
 
 ## Código:
 
