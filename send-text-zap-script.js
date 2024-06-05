@@ -1,4 +1,4 @@
-const LOOP_COUNT = 50; // Quantidade de vezes que o script irá enviar o texto
+const LOOP_COUNT = 10; // Quantidade de vezes que o script irá enviar o texto
 
 async function readTextAndSendMessage(scriptText, loopCount) {
   const lines = scriptText
@@ -14,21 +14,19 @@ async function readTextAndSendMessage(scriptText, loopCount) {
   for (let loop = 0; loop < loopCount; loop++) {
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
+
       console.log(line);
 
       textarea.focus();
-      textarea.textContent = line;
-      textarea.dispatchEvent(new Event("input", { bubbles: true }));
+      document.execCommand("insertText", false, line);
+      textarea.dispatchEvent(new Event("change", { bubbles: true }));
 
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          (
-            main.querySelector(`[data-testid="send"]`) ||
-            main.querySelector(`[data-icon="send"]`)
-          ).click();
-          resolve();
-        }, 100);
-      });
+      setTimeout(() => {
+        (
+          main.querySelector(`[data-testid="send"]`) ||
+          main.querySelector(`[data-icon="send"]`)
+        ).click();
+      }, 200);
 
       if (i !== lines.length - 1)
         await new Promise((resolve) => setTimeout(resolve, 250));
@@ -40,8 +38,17 @@ async function readTextAndSendMessage(scriptText, loopCount) {
 
 readTextAndSendMessage(
   `
+  START
+
   Insira aqui o texto que você deseja enviar em loop.
+  
   Cada linha é enviada em uma mensagem.
+
+  linhas em branco são ignoradas.
+
+  ...
+
+  END
   `,
   LOOP_COUNT
 )

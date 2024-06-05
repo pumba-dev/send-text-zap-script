@@ -9,6 +9,7 @@ Este script permite que você envie mensagens automaticamente no WhatsApp Web. E
 2. Abra a conversa onde você deseja enviar as mensagens.
 
 3. Abra o console do navegador. Você pode fazer isso de várias maneiras:
+
    - No Chrome, você pode pressionar `Ctrl + Shift + J` (Windows / Linux) ou `Cmd + Option + J` (Mac).
    - No Firefox, você pode pressionar `Ctrl + Shift + K` (Windows / Linux) ou `Cmd + Option + K` (Mac).
    - Alternativamente, você pode clicar com o botão direito em cima do campo escrever mensagens, selecionar "Inspecionar" ou "Inspecionar Elemento", e então selecionar a aba "Console".
@@ -20,7 +21,7 @@ Este script permite que você envie mensagens automaticamente no WhatsApp Web. E
 ## Código:
 
 ```
-const LOOP_COUNT = 50; // Quantidade de vezes que o script irá enviar o texto
+const LOOP_COUNT = 10; // Quantidade de vezes que o script irá enviar o texto
 
 async function readTextAndSendMessage(scriptText, loopCount) {
   const lines = scriptText
@@ -36,21 +37,19 @@ async function readTextAndSendMessage(scriptText, loopCount) {
   for (let loop = 0; loop < loopCount; loop++) {
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
+
       console.log(line);
 
       textarea.focus();
-      textarea.textContent = line;
-      textarea.dispatchEvent(new Event("input", { bubbles: true }));
+      document.execCommand("insertText", false, line);
+      textarea.dispatchEvent(new Event("change", { bubbles: true }));
 
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          (
-            main.querySelector(`[data-testid="send"]`) ||
-            main.querySelector(`[data-icon="send"]`)
-          ).click();
-          resolve();
-        }, 100);
-      });
+      setTimeout(() => {
+        (
+          main.querySelector(`[data-testid="send"]`) ||
+          main.querySelector(`[data-icon="send"]`)
+        ).click();
+      }, 200);
 
       if (i !== lines.length - 1)
         await new Promise((resolve) => setTimeout(resolve, 250));
@@ -62,8 +61,17 @@ async function readTextAndSendMessage(scriptText, loopCount) {
 
 readTextAndSendMessage(
   `
+  START
+
   Insira aqui o texto que você deseja enviar em loop.
+
   Cada linha é enviada em uma mensagem.
+
+  linhas em branco são ignoradas.
+
+  ...
+
+  END
   `,
   LOOP_COUNT
 )
